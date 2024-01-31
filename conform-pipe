@@ -1,0 +1,10 @@
+#!/bin/bash
+
+files=$(ls -1 -U test/test_parsing)
+
+for name in $files; do
+  if [[ $name == "n_"*".json" ]] ; then cat test/test_parsing/$name | ./pipe -n -t$name ;
+  elif [[ $name == "y_"*".json" ]] ; then cat test/test_parsing/$name | ./pipe -p -t$name ;
+  elif [[ $name == "i_"*".json" ]] ; then cat test/test_parsing/$name | ./pipe -u -t$name ;
+  fi
+done

@@ -1,0 +1,16 @@
+older/
+specs/
+*.a
+*~
+jsonc
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+arrays
+check
+conform
+dicts
+pipe
+toy
+utest
