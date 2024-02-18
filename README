@@ -4,15 +4,15 @@ and a serializer. It comes with many test files used to check its conformance
 with ECMA-404 (or RFC 8259).
 
 The interfaces are described in jsonparse.h, jsonvalue.h, jsonedit.h and
-jsonserial.h in the src directory. The generated libray is libjsonlib.a - see
+jsonserial.h in the src directory. The generated library is libjsonlib.a - see
 CMakeLists.txt for how to make the library.
 
 The conformance test suite comes from Nicolas Seriot (see README.md and LICENSE
 files in directories test/test_parsing and test/test_transform) altough all
 tests are run directly through a small test driver runtime (conform).
 
-Run cmake . in the top level directory to generate Makefile and just type make
-to generate all targets.
+Run 'cmake .' in the top level directory to generate Makefile and just type
+make to generate all targets.
 
 Known limitations:
 
