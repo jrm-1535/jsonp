@@ -69,6 +69,9 @@ void object_remove_member( object_t *object, unsigned int index, member_t *membe
     --object->nb_used;
 }
 
+// member is an already allocated and filled member, index is where to store
+// its pointer in the object member table - possibly as a collsion.
+// object ihead and itail are assumed to be correct at the time of the call.
 void object_store_member( object_t *object, unsigned int index, member_t *member )
 {
     unsigned int count = 0;
@@ -101,23 +104,22 @@ void object_store_member( object_t *object, unsigned int index, member_t *member
     ++object->nb_used;
 }
 
-static void object_shuffle_members( object_t *object,
-                                    unsigned int old_size, member_t **old_table )
+static void object_shuffle_members( object_t *object, member_t **old_table )
 {
-  /* for each non-empty entry, apply the new modulo
-     and copy the old entry into the new location */
+    assert( NULL == object->ihead->iprev );
+    assert( NULL == object->itail->inext );
 
-    for (unsigned int i = 0; i < old_size; i ++ ) {
-        member_t *old_member = old_table[ i ];
+    member_t *old_start = object->ihead;    // save head of old member list
+    object->ihead = object->itail = NULL;   // start with new empty member table
 
-        while ( old_member ) {     // existing valid entry
-            unsigned int index = old_member->hash % object->modulo;
-            assert( index < object->nb_allocated );
-            member_t *next_in_chain = old_member->next;
-            old_member->next = NULL;
-            object_store_member( object, index, old_member );
-            old_member = next_in_chain;
-        }
+    member_t *old_next = NULL;              // for each old member
+    for ( member_t *member = old_start; member; member = old_next ) {
+        old_next = member->inext;           // temporarily save next old member
+        // make an identical new member (not in a collison chain by default)
+        member->next = NULL;
+        unsigned int index = member->hash % object->modulo; // new table index
+        assert( index < object->nb_allocated );
+        object_store_member( object, index, member );
     }
     free( old_table );
 }
@@ -196,7 +198,7 @@ bool object_make_room( object_t *object )
         object->max_collision = 0;
 
         if ( old_table ) {
-            object_shuffle_members ( object, old_size, old_table );
+            object_shuffle_members ( object, old_table );
         }
         return true;         // object has been extended
     }

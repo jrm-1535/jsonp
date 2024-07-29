@@ -52,7 +52,7 @@ extern void json_free_value( json_value_t *value );
    tree of objects or arrays. The duplicate can be inserted into an array or
    an object, in which case it belongs to the array or object and will be
    automatically freed when the array of object is freed. If the duplicate
-   ends up not beeing insterted in any array or object, it should be freed
+   ends up not beeing inserted in any array or object, it should be freed
    manually. Note that the duplicate can be huge, if the value passed as
    input is already a large object or array. */
 extern json_value_t *json_duplicate_value( const json_value_t *value );
@@ -82,13 +82,12 @@ extern json_value_t *json_replace_element_in_array( json_value_t *varray,
                                                     unsigned int index,
                                                     json_value_t *value );
 
-/* Insert a member passed as a name newly allocated in the heap and a newly
-   created value (see json_new_value) to an object. The argument name
-   provides the name of the new member and the argument value provides the
-   new member value. The return value is JSON_STATUS_SUCCESS in case of success
-   or in case of error one of the following : JSON_STATUS_NOT_AN_OBJECT,
-   JSON_STATUS_DUPLICATE_MEMBER, JSON_STATUS_NOT_A_VALUE or
-   JSON_STATUS_OUT_OF_MEMORY */
+/* Insert a member passed as a name string and a newly created value (see
+   json_new_value) to an object. The argument name provides the name of the
+   new member and the argument value provides the new member value. The return
+   value is JSON_STATUS_SUCCESS in case of success or in case of error one of
+   the following : JSON_STATUS_NOT_AN_OBJECT, JSON_STATUS_DUPLICATE_MEMBER,
+   JSON_STATUS_NOT_A_VALUE or JSON_STATUS_OUT_OF_MEMORY */
 extern json_status_t json_insert_member_into_object( json_value_t *vobject,
                                                      const unsigned char *name,
                                                      json_value_t *value );
