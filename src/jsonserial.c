@@ -64,7 +64,7 @@ static void set_highlight( json_highlight_t *def )
             continue; // ignore invalid entries
 
         int mode = hd->mode, color = hd->color;
-        snprintf( highlight_strings[ i ], MAX_SGR_SEQUENCE_LEN, "\33[%d;%dm",
+        snprintf( highlight_strings[ i ], MAX_SGR_SEQUENCE_LEN, "\33[%c;%cdm",
                    mode, 30 + color );
         current_highlight[ i ] = highlight_strings[ i ];
     }
@@ -191,10 +191,10 @@ static void write_number( serialize_context_t *sctxt,
 
     if ( is_integer ) {
         integer_value = json_get_integer_value( value );
-        size = snprintf( sctxt->ptr, 0, "%lld", integer_value );
+        size = snprintf( NULL, 0, "%lld", integer_value );
     } else {
         real_value = json_get_real_value( value );
-        size = snprintf( sctxt->ptr, 0, "%g", real_value );
+        size = snprintf( NULL, 0, "%g", real_value );
     }
 
     sctxt->size += size;                    // size is always updated first

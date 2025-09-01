@@ -21,7 +21,7 @@ extern bool json_get_boolean_value( const json_value_t *value );
 
 // returns the string value (zero-terminated UTF8 string) of a json string
 // value. The string is directly pointed in the value; it is not a copy,
-// don't free it. The string must be duplicated if need after the whole
+// don't free it. The string must be duplicated if needed after the whole
 // json root is freed (see json_free)
 extern const unsigned char *json_get_string_value( const json_value_t *value );
 
