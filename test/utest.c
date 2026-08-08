@@ -1024,12 +1024,12 @@ START_TEST( test_parser_larger_object, NO_SETUP )
     unsigned int count = json_get_object_member_count( root );
     ASSERT_EQUAL( 54, count );
 
-    char member_name[ sizeof("member #54") ];
+    char member_name[ sizeof("member #") + 10 ];    // uint 4294967295, 10 dig
     memcpy( member_name, "member #", sizeof("member #") );
     int index = sizeof( "member #" ) - 1;
 
     for ( unsigned int i = 0; i < count; ++i ) {
-        snprintf( &member_name[index], 3, "%u", 1 + i );
+        snprintf( &member_name[index], sizeof(member_name)-index, "%u", 1 + i );
         //PRINT_NORMAL( "member name: %s\n", member_name );
         const json_value_t *member = json_search_for_object_member_by_name(
                                       root, (const unsigned char *)member_name );
